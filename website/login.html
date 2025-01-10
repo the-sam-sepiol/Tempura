@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TEMPURA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white min-h-screen flex flex-col">
+  <nav class="flex items-center justify-between bg-amber-600 p-4">
+    <div class="text-white text-xl font-bold">
+      <a href="index.html">TEMPURA</a>
+    </div>
+    <div class="space-x-4">
+      <a href="index.html" class="text-white hover:text-gray-200">Front Page</a>
+      <a href="login.html" class="text-white hover:text-gray-200">Login</a>
+      <a href="home.html" class="text-white hover:text-gray-200">Home</a>
+    </div>
+  </nav>
+
+  <main class="flex-grow flex items-center justify-center">
+    <div class="w-full max-w-sm bg-gray-100 p-6 rounded shadow-md"> 
+      <h2 class="text-2xl font-semibold text-center mb-6">Login</h2>
+      <form   
+        class="flex flex-col space-y-4" 
+        action="#" 
+        method="POST"
+        onsubmit="alert('We need to connect this to a DB and add rules for passwords'); return false;"          
+      >
+        <div>
+          <label for="email" class="block text-gray-700 mb-1">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            class="w-full p-2 border border-gray-300 rounded outline-none focus:ring-2 focus:ring-blue-500"
+            required
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div>
+          <label for="password" class="block text-gray-700 mb-1">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            class="w-full p-2 border border-gray-300 rounded outline-none focus:ring-2 focus:ring-blue-500"
+            required
+            placeholder="Enter your password"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-2 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition-colors"
+        >
+          Login
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="bg-gray-200 p-4 text-center">
+    <p class="text-sm text-gray-600">&copy; 2025 TEMPURA</p>
+  </footer>
+</body>
+</html>
