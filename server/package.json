@@ -3,28 +3,26 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "build": "react-scripts build",
-    "start:react": "react-scripts start"
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["backend", "server", "express", "mongoose"],
+  "author": "Your Name",
   "license": "ISC",
-  "description": "",
+  "description": "A backend server application using Express and MongoDB.",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.4",
-    "react": "^18.2.0", 
-    "react-dom": "^18.2.0"
+    "mongoose": "^8.9.4"
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.2",
-    "postcss": "^8.4.24",
-    "autoprefixer": "^10.4.15"
+    "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }
 
