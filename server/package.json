@@ -4,7 +4,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "react-scripts build",
+    "start:react": "react-scripts start"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +17,15 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.9.4"
+    "mongoose": "^8.9.4",
+    "react": "^18.2.0", 
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.2",
+    "postcss": "^8.4.24",
+    "autoprefixer": "^10.4.15"
   }
 }
+
+
