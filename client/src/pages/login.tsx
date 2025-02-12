@@ -1,13 +1,30 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ email, password });
+    try{
+      const response = await fetch('http://localhost:3000/login', {
+        method : 'POST',
+        credentials: 'include',    //allows cookies
+        headers: { 'Content-Type' : 'application/json' },
+        body: JSON.stringify({ email, password }),
+    });
+    if (!response.ok) {
+      throw new Error('Invalid email or password');
+    }
+    const data = await response.json();
+    console.log(data);
+
+    navigate('/home');
+    } catch (error){
+        console.error('Error:', error);
+    }
   };
 
   return (
