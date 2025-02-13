@@ -7,7 +7,12 @@
     "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["backend", "server", "express", "mongoose"],
+  "keywords": [
+    "backend",
+    "server",
+    "express",
+    "mongoose"
+  ],
   "author": "Your Name",
   "license": "ISC",
   "description": "A backend server application using Express and MongoDB.",
@@ -16,14 +21,13 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.13.0",
     "mongoose": "^8.9.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.1.9"
   },
   "engines": {
     "node": ">=16.0.0"
   }
 }
-
-
