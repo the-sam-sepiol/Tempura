@@ -59,6 +59,11 @@ const Login: React.FC = () => {
           <Link to="/signup" className="py-2 px-4 border border-blue-500 text-blue-500 rounded ml-2">
             Sign Up
           </Link>
+          <div className="mt-4 text-center">
+            <Link to="/about" className="text-blue-500 hover:underline">
+              About Tempura
+            </Link>
+          </div>
         </form>
       </div>
     </>
