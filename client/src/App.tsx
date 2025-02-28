@@ -11,7 +11,6 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {/* Make the login page render at the root path */}
         <Route path="/" element={<Decision />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
