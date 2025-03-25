@@ -4,9 +4,9 @@ interface Anime {
   mal_id: number;
   title: string;
   rating?: string;
+  score?: number; // Added score property to hold the anime's score
   // additional fields if needed
 }
-
 interface Review {
   review: string;
   // additional fields if needed
@@ -191,6 +191,10 @@ const Home: React.FC = () => {
               </h2>
               <button onClick={closeModal} className="text-red-500 text-lg">X</button>
             </div>
+            {/* Overall score section */}
+            {selectedAnime.score !== undefined && (
+              <p className="text-lg mb-4">Overall Score: {selectedAnime.score}</p>
+            )}
             {reviewsLoading && <p>Loading reviews...</p>}
             {reviewsError && <p>{reviewsError}</p>}
             {!reviewsLoading && !reviewsError && (
