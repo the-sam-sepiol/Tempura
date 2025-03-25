@@ -4,23 +4,33 @@ const { CachedAnime } = require('../models/AnimeList');
 const protect = require('../middleware/auth');
 const Review = require('../models/Review');
 
+// Existing routes ...
 //search anime
 router.get('/search', async (req, res) => {
     try {
-        // req.query.q gets the search term from the URL
-        // Example: /api/anime/search?q=naruto
         const query = req.query.q;
-        //calls jikan API search endpoint
         const response = await fetch(`https://api.jikan.moe/v4/anime?q=${query}`);
         const data = await response.json();
-
-        // Sends back the search results to frontend
         res.json(data);
     } catch (error) {
-        res.status(500).json({ error: 'Failed to search anime'});
+        res.status(500).json({ error: 'Failed to search anime' });
     }
 });
 
+// New route to fetch anime titles from JIKAN API
+router.get('/titles', async (req, res) => {
+    try {
+        const response = await fetch('https://api.jikan.moe/v4/anime');
+        const data = await response.json();
+        // Map over the results to extract only the titles.
+        const titles = data.data.map(anime => anime.title);
+        res.json({ titles });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch anime titles' });
+    }
+});
+
+// ...other routes remain unchanged
 //get single anime details
 router.get('/:id', async (req, res) => {
     try {
@@ -124,6 +134,21 @@ router.post('/:animeId/review', protect, async (req, res) => {
         res.status(500).json({ error: 'Failed to create review' });
     }
 });
+
+router.get('/top', async (req, res) => {
+    try {
+        const response = await fetch('https://api.jikan.moe/v4/top/anime');
+        const data = await response.json();
+        // Extract the first 50 anime from the response
+        const topAnime = data.data.slice(0, 50);
+        res.json({ topAnime });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch top anime' });
+    }
+});
+
+
+module.exports = router;
 
 // TODO: Personalized Recommendation Routes
 /*
