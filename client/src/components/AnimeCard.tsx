@@ -1,5 +1,10 @@
 import React from 'react';
 
+//This is a component that will be used to display anime details in the home page
+//It will display the anime image, title, description, score, and some action buttons
+//The action buttons will be used to add the anime to the watch list, add a review, etc.
+//This component will be used across the webiste to display anime details
+
 export interface AnimeCardProps {
   title: string;
   description: string;
@@ -17,6 +22,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({
     <div className="max-w-4xl bg-white rounded overflow-hidden shadow-lg p-4 flex">
       {/* Left section: Cover Image */}
       <img
+        crossOrigin="anonymous"         //fixes CORS issue in firefox inspector
         className="w-1/3 h-auto object-cover rounded"
         src={imageUrl}
         alt={`${title} cover`}
