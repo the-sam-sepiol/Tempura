@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AnimeCard, { AnimeCardProps } from '../components/AnimeCard.tsx';
 
 
 interface Anime {
@@ -61,6 +62,10 @@ const Home: React.FC = () => {
   const [genreAnimes, setGenreAnimes] = useState<Anime[]>([]);
   const [genreAnimesLoading, setGenreAnimesLoading] = useState(false);
   const [genreAnimesError, setGenreAnimesError] = useState<string | null>(null);
+
+  //state for selected anime details
+  const [selectedAnimeDetails, setSelectedAnimeDetails] = useState<AnimeCardProps | null>(null);
+
 
   //trunacate text to avoid word limits
   const truncate = (text: string, wordLimit: number): string => {
@@ -130,6 +135,24 @@ const Home: React.FC = () => {
     }
   };
 
+  const handleViewAnimeCard = async () => {
+    if (!selectedAnime) return;
+    try {
+      const res = await rateLimitedFetch(`https://api.jikan.moe/v4/anime/${selectedAnime.mal_id}`);
+      const data = await res.json();
+      const detail = data.data;
+      const animeCardProps: AnimeCardProps = {
+        title: detail.title,
+        description: detail.synopsis || "No description available.",
+        score: detail.score,
+        imageUrl: detail.images?.jpg?.image_url,
+      };
+      setSelectedAnimeDetails(animeCardProps);
+    } catch (err) {
+      console.error(err);
+    }
+  };  
+
   //click handler for genres (shows top 10 anime for that genre, filtering Rx rated).
   const handleGenreClick = async (genre: Genre) => {
     setSelectedGenre(genre);
@@ -149,6 +172,7 @@ const Home: React.FC = () => {
   };
 
   //Modal close handlers.
+  const closeAnimeCardModal = () => setSelectedAnimeDetails(null);
   const closeModal = () => setSelectedAnime(null);
   const closeReviewModal = () => setSelectedReview(null);
   const closeGenreModal = () => setSelectedGenre(null);
@@ -247,10 +271,28 @@ const Home: React.FC = () => {
                 )}
               </>
             )}
+            <div className="mt-4">
+              <button
+                onClick={handleViewAnimeCard}
+                className="py-2 px-4 bg-green-500 text-white rounded"
+              >
+                View Anime Card
+              </button>
+            </div>
           </div>
         </div>
       )}
-  
+      {/* Anime Card Modal */}
+      {selectedAnimeDetails && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
+          <div className="bg-white p-6 rounded shadow-lg w-full max-w-4xl overflow-y-auto">
+            <button onClick={closeAnimeCardModal} className="text-red-500 text-lg float-right">
+              X
+            </button>
+            <AnimeCard {...selectedAnimeDetails} />
+          </div>
+        </div>
+      )}
       {/* Modal for Full Review */}
       {selectedReview && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-20">
