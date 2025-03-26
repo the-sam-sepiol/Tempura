@@ -53,9 +53,9 @@ const Login: React.FC = () => {
               required
             />
           </div>
-          <button className="py-2 px-4 bg-blue-500 text-white rounded" type="submit">
+          <Link to="/home" className="py-2 px-4 bg-blue-500 text-white rounded ml-2" type="submit">
             Log In
-          </button>
+          </Link>
           <Link to="/signup" className="py-2 px-4 border border-blue-500 text-blue-500 rounded ml-2">
             Sign Up
           </Link>
