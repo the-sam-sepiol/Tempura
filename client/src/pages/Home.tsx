@@ -141,6 +141,7 @@ const Home: React.FC = () => {
       const data = await res.json();
       const detail = data.data;
       const animeCardProps: AnimeCardProps = {
+        mal_id: detail.mal_id,
         title: detail.title,
         description: detail.synopsis || "No description available.",
         score: detail.score,
@@ -175,6 +176,7 @@ const Home: React.FC = () => {
       const data = await res.json();
       const detail = data.data;
       const animeCardProps: AnimeCardProps = {
+        mal_id: detail.mal_id,
         title: detail.title,
         description: detail.synopsis || "No description available.",
         score: detail.score,
