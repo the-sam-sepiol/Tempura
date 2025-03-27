@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import AnimeCard, { AnimeCardProps } from '../components/AnimeCard.tsx';
 
 
@@ -170,6 +169,23 @@ const Home: React.FC = () => {
       setGenreAnimesLoading(false);
     }
   };
+  const handleGenreAnimeClick = async (anime: Anime) => {
+    try {
+      const res = await rateLimitedFetch(`https://api.jikan.moe/v4/anime/${anime.mal_id}`);
+      const data = await res.json();
+      const detail = data.data;
+      const animeCardProps: AnimeCardProps = {
+        title: detail.title,
+        description: detail.synopsis || "No description available.",
+        score: detail.score,
+        imageUrl: detail.images?.jpg?.image_url,
+      };
+      setSelectedAnimeDetails(animeCardProps);
+      setSelectedGenre(null);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   //Modal close handlers.
   const closeAnimeCardModal = () => setSelectedAnimeDetails(null);
@@ -327,7 +343,11 @@ const Home: React.FC = () => {
                 {genreAnimes.length > 0 ? (
                   <ul className="space-y-2">
                     {genreAnimes.map((anime) => (
-                      <li key={anime.mal_id} className="border-b pb-2">
+                      <li 
+                        key={anime.mal_id} 
+                        className="border-b pb-2 cursor-pointer hover:bg-gray-100 p-2"
+                        onClick={() => handleGenreAnimeClick(anime)}
+                      >
                         <p className="text-lg font-semibold">{anime.title}</p>
                       </li>
                     ))}
@@ -340,27 +360,10 @@ const Home: React.FC = () => {
           </div>
         </div>
       )}
-      {/* buttons with routers for various site features */}
-      <div className="fixed bottom-0 left-0 right-0 bg-gray-100 p-4 flex justify-around border-t border-gray-300">
-        <Link to="/account" className="py-2 px-4 bg-blue-500 text-white rounded">
-          Account
-        </Link>
-        <Link to="/friends" className="py-2 px-4 bg-purple-600 text-white rounded">
-          Friends
-        </Link>
-        <button className="py-2 px-4 bg-gray-400 text-white rounded">
-          WIP
-        </button>
-        <button className="py-2 px-4 bg-gray-400 text-white rounded">
-          WIP
-        </button>
-        <button className="py-2 px-4 bg-gray-400 text-white rounded">
-          WIP
-        </button>
-      </div>
+
     </div>
   );
-};
+}
 
 
 

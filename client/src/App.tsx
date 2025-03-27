@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header.tsx';
 import Login from './pages/login.tsx';
 import Home from './pages/Home.tsx';
 import SignUp from './pages/signup.tsx'; 
@@ -10,6 +11,7 @@ import About from './pages/About.tsx';
 const App: React.FC = () => {
   return (
     <Router>
+      <Header />
       <Routes>
         <Route path="/" element={<Decision />} />
         <Route path="/login" element={<Login />} />
