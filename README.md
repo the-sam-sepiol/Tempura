@@ -13,7 +13,7 @@
 
 #Open two terminals
 --In first terminal:
-  cd into /server
+--cd into /server
   npm start
   verify MongoDB connection
   
