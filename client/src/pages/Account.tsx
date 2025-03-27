@@ -4,7 +4,9 @@ const Account: React.FC = () => {
   //state for avatar, displayName, and modal visibility
   const [avatar, setAvatar] = useState<string>('/defaultAvatar.png'); //Avatar
   const [displayName, setDisplayName] = useState<string | null>(null);
+  const [userSince, setUserSince] = useState<string | null>(null); //User Since
   const [showAvatarModal, setShowAvatarModal] = useState<boolean>(false); //Modal
+
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -15,6 +17,9 @@ const Account: React.FC = () => {
         //if the user has an avatar stored from the DB, use it
         if (user.avatar) {
           setAvatar(user.avatar);
+        }
+        if (user.createdAt){
+          setUserSince(user.createdAt);
         }
       } catch (error) {
         console.error('Error parsing user from localStorage', error);
@@ -47,12 +52,12 @@ const Account: React.FC = () => {
         },
         body: JSON.stringify({ avatar: selectedAvatar })
       });
-      if (!response.ok) {
-        throw new Error('Failed to update avatar');
+      const data = await response.json();
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+        setAvatar(data.user.avatar);
+        setShowAvatarModal(false);
       }
-      //update local state and close the modal
-      setAvatar(selectedAvatar);
-      setShowAvatarModal(false);
     } catch (error) {
       console.error('Error updating avatar', error);
     }
@@ -75,6 +80,11 @@ const Account: React.FC = () => {
           >
             Edit Avatar
           </button>
+          {userSince && (
+            <p className="text-gray-500 mt-2">
+              User Since: {new Date(userSince).toLocaleDateString()}
+            </p>
+          )}
         </div>
       </div>
       
