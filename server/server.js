@@ -15,11 +15,13 @@ app.use(express.json());
 
 //import the routers
 const animeRouter = require('./routes/anime');
+const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth'); 
 
 //mount routers
 app.use('/api/anime', animeRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
 
 //basic test route
 app.get('/api/test', (req, res) => {

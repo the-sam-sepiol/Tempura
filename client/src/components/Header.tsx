@@ -40,13 +40,15 @@ return (
         </div>
 
         {/* Logo */}
-        <div className="flex-shrink-0">
-          <img
-            src="/icon.png"
-            alt="Logo"
-            className="w-25 h-20"  // adjust as needed
-          />
-        </div>
+        <Link to="/home">
+            <div className="flex-shrink-0">
+            <img
+                src="/icon.png"
+                alt="Logo"
+                className="w-25 h-20"  // adjust as needed
+            />
+            </div>
+        </Link>
 
       {displayName && (
         <div className="ml-4 text-lg">
