@@ -23,6 +23,7 @@ const Login: React.FC = () => {
       
       //save token to local storage
       localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
       
       //redirect home
       navigate('/home');
