@@ -34,9 +34,10 @@ const handleAddToWatchList = async () => {
         });
         const data = await response.json();
         if (data.success) {
-        alert(`${title} has been added to your watch list!`);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            alert(`${title} has been added to your watch list!`);
         } else {
-        alert(`Failed to add to watch list: ${data.error}`);
+            alert(`Failed to add to watch list: ${data.error}`);
         }
     } catch (error) {
         console.error('Error adding to watch list', error);

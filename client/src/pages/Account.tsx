@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
+interface Anime{
+  mal_id: number;
+  title: string;
+  imageUrl: string;
+}
+
 const Account: React.FC = () => {
   //state for avatar, displayName, and modal visibility
   const [avatar, setAvatar] = useState<string>('/defaultAvatar.png'); //Avatar
@@ -7,6 +13,7 @@ const Account: React.FC = () => {
   const [userSince, setUserSince] = useState<string | null>(null); //User Since
   const [showAvatarModal, setShowAvatarModal] = useState<boolean>(false); //Modal
 
+  const [watchList, setWatchList] = useState<Anime[]>([]);    //for watch list
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
@@ -14,12 +21,37 @@ const Account: React.FC = () => {
       try {
         const user = JSON.parse(storedUser);
         setDisplayName(user.displayName);
-        //if the user has an avatar stored from the DB, use it
         if (user.avatar) {
           setAvatar(user.avatar);
         }
-        if (user.createdAt){
+        if (user.createdAt) {
           setUserSince(user.createdAt);
+        }
+        // Assume user.watchList is an array of MAL IDs
+        if (user.watchList && Array.isArray(user.watchList)) {
+          const malIds: number[] = user.watchList;
+          //for each mal_id, fetch details from the Jikan API
+          Promise.all(
+            malIds.map(async (malId: number) => {
+              const res = await fetch(`https://api.jikan.moe/v4/anime/${malId}`);
+              if (res.ok) {
+                const json = await res.json();
+                return {
+                  mal_id: json.data.mal_id,
+                  title: json.data.title,
+                  imageUrl: json.data.images.jpg.image_url
+                };
+              }
+              return null;
+            })
+          )
+            .then(results => {
+              const animeList = results.filter((a) => a !== null) as Anime[];
+              setWatchList(animeList);
+            })
+            .catch(error => {
+              console.error('Error fetching anime details:', error);
+            });
         }
       } catch (error) {
         console.error('Error parsing user from localStorage', error);
@@ -27,10 +59,7 @@ const Account: React.FC = () => {
     }
   }, []);
 
-  //placeholder for later
-  const watchedList = [1, 2, 3, 4, 5, 6]; //Watched
-  const watchList = [1, 2, 3]; //Watch
-
+  
   //list of avatars for selection
   const avatarOptions = [
     '/octopusAvatar.png', //Octopus
@@ -109,39 +138,26 @@ const Account: React.FC = () => {
         <button className="py-2 px-4 bg-blue-500 text-white rounded">Submit Review</button>
       </div>
       
-      {/* Watched List Section */}
-      <div className="bg-white p-6 shadow rounded mb-8">
-        <h2 className="text-xl font-semibold mb-4">Watched List</h2>
-        <div className="overflow-x-auto">
-          <div className="flex space-x-4">
-            {watchedList.map((item) => (
-              <div key={item} className="min-w-[150px] bg-gray-100 p-4 rounded text-center">
-                <div className="h-24 bg-gray-300 flex items-center justify-center rounded mb-2">
-                  <span>Item {item}</span>
-                </div>
-                <p className="font-medium">Title {item}</p>
+      {/* Watch List Section from Local Storage */}
+      <div className="bg-white p-6 shadow rounded">
+        <h2 className="text-xl font-semibold mb-4">Watch List</h2>
+        {watchList.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {watchList.map((anime) => (
+              <div key={anime.mal_id} className="bg-gray-100 p-4 rounded flex flex-col items-center">
+                <img 
+                  src={anime.imageUrl} 
+                  alt={anime.title}
+                  className="h-24 w-full object-cover rounded mb-2"
+                />
+                <p className="font-medium mb-2">{anime.title}</p>
+                <button className="text-blue-500 hover:underline">Edit</button>
               </div>
             ))}
           </div>
-        </div>
-      </div>
-      
-      {/* Watch List Section */}
-      <div className="bg-white p-6 shadow rounded">
-        <h2 className="text-xl font-semibold mb-4">Watch List</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {watchList.map((item) => (
-            <div key={item} className="bg-gray-100 p-4 rounded flex flex-col items-center">
-              <div className="h-24 w-full bg-gray-300 flex items-center justify-center rounded mb-2">
-                <span>Item {item}</span>
-              </div>
-              <p className="font-medium mb-2">
-                Priority: <span className="text-yellow-500">★</span> {/*Priority*/}
-              </p>
-              <button className="text-blue-500 hover:underline">Edit</button>
-            </div>
-          ))}
-        </div>
+        ) : (
+          <p>No anime in your watch list.</p>
+        )}
       </div>
 
       {/* Avatar Selection Modal */}
