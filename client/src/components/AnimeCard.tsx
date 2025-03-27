@@ -6,18 +6,44 @@ import React from 'react';
 //This component will be used across the webiste to display anime details
 
 export interface AnimeCardProps {
-  title: string;
-  description: string;
-  score: number;
-  imageUrl: string;
+    mal_id: number;
+    title: string;
+    description: string;
+    score: number;
+    imageUrl: string;
 }
 
 const AnimeCard: React.FC<AnimeCardProps> = ({
-  title,
-  description,
-  score,
-  imageUrl,
+    mal_id,
+    title,
+    description,
+    score,
+    imageUrl,
 }) => {
+
+const handleAddToWatchList = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:3000/api/users/watchlist', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ malId: mal_id })
+        });
+        const data = await response.json();
+        if (data.success) {
+        alert(`${title} has been added to your watch list!`);
+        } else {
+        alert(`Failed to add to watch list: ${data.error}`);
+        }
+    } catch (error) {
+        console.error('Error adding to watch list', error);
+        alert('An error occurred while adding to watch list.');
+    }
+    };
+
   return (
     <div className="max-w-4xl bg-white rounded overflow-hidden shadow-lg p-4 flex">
       {/* Left section: Cover Image */}
@@ -45,7 +71,9 @@ const AnimeCard: React.FC<AnimeCardProps> = ({
           <button className="py-2 px-4 bg-blue-500 text-white rounded">
             Already Watched?
           </button>
-          <button className="py-2 px-4 bg-green-500 text-white rounded">
+          <button 
+            onClick={handleAddToWatchList}
+            className="py-2 px-4 bg-green-500 text-white rounded">
             Add to watch list?
           </button>
           <button className="py-2 px-4 bg-purple-500 text-white rounded">
