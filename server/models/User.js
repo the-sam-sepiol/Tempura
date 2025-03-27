@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: '/default-avatar.png'
+        default: '/defaultAvatar.png'
     },
     topThree: [{
         animeId: Number,
