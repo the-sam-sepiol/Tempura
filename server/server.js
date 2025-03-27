@@ -9,6 +9,8 @@ connectDB();
 //activate cors (since we are using 3001 as our port for the client)
 app.use(cors({
     origin: 'http://localhost:3001',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
 app.use(express.json());

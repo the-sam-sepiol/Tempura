@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema({
             default: Date.now
         }
     }],
+    watchList: { //stores MAL ids for the watchlist
+        type: [Number],
+        default: []
+    },
     createdAt: {
         type: Date,
         default: Date.now

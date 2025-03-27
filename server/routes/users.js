@@ -22,4 +22,27 @@ router.put('/avatar', protect, async (req, res) => {
   }
 });
 
+router.put('/watchlist', protect, async (req, res) => {
+    try {
+      const { malId } = req.body;
+      if (!malId) {
+        return res.status(400).json({ error: 'malId is required' });
+      }
+      // Find the user by id attached by the protect middleware
+      const user = await User.findById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      // Add malId only if not already in the watchList array
+      if (!user.watchList.includes(malId)) {
+        user.watchList.push(malId);
+        await user.save();
+      }
+      res.json({ success: true, user });
+    } catch (error) {
+      console.error('Error adding to watch list', error);
+      res.status(500).json({ error: 'Server error adding to watch list' });
+    }
+});
+
 module.exports = router;
