@@ -5,10 +5,11 @@ const Decision: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check for session cookie
-    const hasSessionCookie = document.cookie.includes('session=');
-    if (!hasSessionCookie) {
-      // Redirect to /login
+
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/home');
+    } else {
       navigate('/login');
     }
   }, [navigate]);

@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+
+
 const Header: React.FC = () => {
-  return (
+    const [displayName, setDisplayName] = useState<string | null>(null);
+
+    useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+        try {
+        const user = JSON.parse(storedUser);
+        setDisplayName(user.displayName);
+        } catch (error) {
+        console.error('Error parsing user from localStorage', error);
+        }
+    }
+    }, []);
+
+return (
     <header className="bg-gray-800 text-white p-4 flex items-center justify-between">
       {/* Left group: Search bar and Logo */}
       <div className="flex items-center space-x-4">
@@ -23,7 +39,7 @@ const Header: React.FC = () => {
           </svg>
         </div>
 
-        {/* Logo shifted next to the search bar */}
+        {/* Logo */}
         <div className="flex-shrink-0">
           <img
             src="/icon.png"
@@ -31,6 +47,12 @@ const Header: React.FC = () => {
             className="w-25 h-20"  // adjust as needed
           />
         </div>
+
+      {displayName && (
+        <div className="ml-4 text-lg">
+            Hello {displayName}!
+        </div>
+      )}
       </div>
 
       {/* Right: Friends link and Account icon */}
