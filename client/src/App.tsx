@@ -7,6 +7,7 @@ import Decision from './pages/decision.tsx';
 import Account from './pages/Account.tsx';
 import About from './pages/About.tsx';
 import MainLayout from './components/MainLayout.tsx';
+import Friends from './pages/Friends.tsx';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/account" element={<Account />} />
           <Route path="/about" element={<About />} />
+          <Route path="/friends" element={<Friends />} />
         </Route>
       </Routes>
     </Router>
