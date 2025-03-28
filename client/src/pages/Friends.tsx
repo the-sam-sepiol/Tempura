@@ -7,7 +7,9 @@ interface Friend {
   avatar: string;
 }
 
-interface Activity {
+//to be implemented fully
+
+/* interface Activity {
   _id: string;
   userId: {
     _id: string;
@@ -23,11 +25,11 @@ interface Activity {
     reviewId?: string;
   };
   createdAt: Date;
-}
+}*/
 
 const Friends: React.FC = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
-  const [activities, setActivities] = useState<Activity[]>([]);
+  //const [activities, setActivities] = useState<Activity[]>([]);
   const [friendSearchTerm, setFriendSearchTerm] = useState("");
   const navigate = useNavigate();
 
