@@ -38,9 +38,25 @@ const UserSchema = new mongoose.Schema({
         type: [Number],
         default: []
     },
+    completedList: { //stores MAL ids for the completed list
+        type: [Number],
+        default: []
+    },
+    reviews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review'
+    }],
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    followers: {
+        type: [String],
+        default: []
+    },
+    following: {
+        type: [String],
+        default: []
     }
 });
 
