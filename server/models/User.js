@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: '/default-avatar.png'
+        default: '/defaultAvatar.png'
     },
     topThree: [{
         animeId: Number,
@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema({
             default: Date.now
         }
     }],
+    watchList: { //stores MAL ids for the watchlist
+        type: [Number],
+        default: []
+    },
     createdAt: {
         type: Date,
         default: Date.now

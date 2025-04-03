@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp: React.FC = () => {
+  const navigate = useNavigate();
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,8 +17,13 @@ const SignUp: React.FC = () => {
          },
          body : JSON.stringify({ displayName, email, password }),
     });
+
     const data = await response.json();
     console.log(data);
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+    navigate('/home');
+
     } catch (error){
         console.error('Error:', error);
     }

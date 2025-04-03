@@ -1,22 +1,37 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const connectDB = require('./config/db');
 
 const app = express();
 connectDB();
 
-// Middleware
+//activate cors (since we are using 3001 as our port for the client)
+app.use(cors({
+    origin: 'http://localhost:3001',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 app.use(express.json());
 
-// Define a port
-const PORT = process.env.PORT || 3000;
+//import the routers
+const animeRouter = require('./routes/anime');
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth'); 
 
-// Basic test route
+//mount routers
+app.use('/api/anime', animeRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
+
+//basic test route
 app.get('/api/test', (req, res) => {
     res.json({ msg: 'API is working' });
 });
 
-// Start server
+const PORT = process.env.PORT || 3000;
+//start server
 app.listen(PORT, () => {
-    console.log(`Server is running on port 3000`);
+    console.log(`Server is running on port ${PORT}`);
 });

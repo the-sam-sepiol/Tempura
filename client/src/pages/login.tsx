@@ -8,22 +8,28 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try{
-      const response = await fetch('http://localhost:3000/login', {
-        method : 'POST',
-        credentials: 'include',    //allows cookies
-        headers: { 'Content-Type' : 'application/json' },
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/login', {    //change to server
+        method: 'POST',   
+        credentials: 'include', 
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-    });
-    if (!response.ok) {
-      throw new Error('Invalid email or password');
-    }
-    const data = await response.json();
-    console.log(data);
-
-    navigate('/home');
-    } catch (error){
-        console.error('Error:', error);
+      });
+      if (!response.ok) {
+        throw new Error('Invalid email or password');
+      }
+      const data = await response.json();
+      console.log(data);
+      
+      //save token to local storage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      //redirect home
+      navigate('/home');
+      
+    } catch (error) {
+      console.error('Error', error);
     }
   };
 
@@ -53,10 +59,16 @@ const Login: React.FC = () => {
               required
             />
           </div>
-          <button className="py-2 px-4 bg-blue-500 text-white rounded" type="submit">
+          <button
+            className="py-2 px-4 bg-blue-500 text-white rounded ml-2"
+            type="submit"
+          >
             Log In
           </button>
-          <Link to="/signup" className="py-2 px-4 border border-blue-500 text-blue-500 rounded ml-2">
+          <Link
+            to="/signup"
+            className="py-2 px-4 border border-blue-500 text-blue-500 rounded ml-2"
+          >
             Sign Up
           </Link>
           <div className="mt-4 text-center">
