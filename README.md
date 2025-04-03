@@ -17,6 +17,7 @@ Navigate and install dependencies as follows:
 ```bash
 cd client
 npm install react
+npm install react-router-dom
 ```
 
 **In `/server` directory:**
@@ -25,6 +26,7 @@ npm install react
 cd ../server
 npm install cors
 npm install mongodb
+npm install axios --save
 ```
 
 ---

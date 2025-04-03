@@ -11,7 +11,8 @@ const ActivityLogSchema = new mongoose.Schema({
         enum: [
             'ADDED_TO_WATCHED',    // Only show completed shows
             'POSTED_REVIEW',       // Show when they review
-            'UPDATED_TOP_THREE'    // Show top three changes
+            'UPDATED_TOP_THREE',   // Show top three changes
+            'NEW_FOLLOWER'         // Show when someone follows you
         ],
         required: true
     },
@@ -32,6 +33,10 @@ const ActivityLogSchema = new mongoose.Schema({
         reviewId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Review'
+        },
+        followerId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
         }
     },
     createdAt: {
